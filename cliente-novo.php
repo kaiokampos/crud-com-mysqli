@@ -9,8 +9,11 @@ if ($_POST) {
     $email = addslashes($_POST['email']);
     $cpf = addslashes($_POST['cpf']);
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        echo 'Email inválido!';
-    }else{
+        $msg = "Email inválido!";
+    }elseif(!validaCPF($cpf)){
+        $msg = "CPF inválido";
+    }
+    else{
         //criar o sql
         $sql = "INSERT INTO cliente VALUES (default,'{$nome}','{$telefone}','{$email}','{$cpf}')";
         // tenta cadastrar, retorna true ou false
