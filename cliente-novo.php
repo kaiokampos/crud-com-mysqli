@@ -2,22 +2,30 @@
 if ($_POST) {
 //incluir o arquivo de conexão
     include "includes/conexao.php";
+    include "includes/funcoes.php";
 //capturar os dados do post
     $nome = addslashes($_POST['nome']);
     $telefone = addslashes($_POST['telefone']);
     $email = addslashes($_POST['email']);
     $cpf = addslashes($_POST['cpf']);
-
-//criar o sql
-    $sql = "INSERT INTO cliente VALUES (default,'{$nome}','{$telefone}','{$email}','{$cpf}')";
-// tenta cadastrar, retorna true ou false
-    $resposta = $conn->query($sql);
-// se true, cadastro efetuado
-    if ($resposta === true) {
-        $msg = "Cadastrado com sucesso!";
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        echo 'Email inválido!';
     }else{
-        $msg = "Erro ao cadastrar!";
+        //criar o sql
+        $sql = "INSERT INTO cliente VALUES (default,'{$nome}','{$telefone}','{$email}','{$cpf}')";
+        // tenta cadastrar, retorna true ou false
+        $resposta = $conn->query($sql);
+        // se true, cadastro efetuado
+        if ($resposta === true) {
+            $msg = "Cadastrado com sucesso!";
+        }else{
+            $msg = "Erro ao cadastrar!";
+        }
     }
+
+
+
+
 
 
 
