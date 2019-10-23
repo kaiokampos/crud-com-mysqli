@@ -1,21 +1,18 @@
 <?php
-include 'includes/conexao.php';
 
-$sql = "SELECT * FROM cliente";
-if (rowCount($sql)>0) {
-    $nome = $dados['nome'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $cpf = $_POST['cpf'];
-}
-mysql_fetch_assoc($dados);
+    include "includes/conexao.php";
 
+    $sql = "SELECT * FROM cliente";
+    $lista = $conn->query($sql);
 
-
+    
 ?>
-<?php include'includes/header.php' ?>
+
+<?php include "includes/header.php"; ?>
     <div class="container">
+    
         <h1>Lista de Clientes</h1>
+
         <table class="table">
             <thead>
                 <tr>
@@ -23,20 +20,23 @@ mysql_fetch_assoc($dados);
                     <th scope="col">NOME</th>
                     <th scope="col">TELEFONE</th>
                     <th scope="col">E-MAIL</th>
-                    <th scope="col">CPF</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
+                <?php while($cliente = $lista->fetch_assoc()) { ?>
                 <tr>
-                    <th scope="row">1</th>
-                    <td><?php echo ""?></td>
-                    <td>(21)9999-8888</td>
-                    <td>bruna.martins@email.com</td>
-                    <td>789.987.456-45</td>
-                </tr>
+                    <th scope="row"><?php echo $cliente['pk_cliente'] ?></th>
+                    <td><?php echo $cliente['nome'] ?></td>
+                    <td><?php echo $cliente['telefone'] ?></td>
+                    <td><?php echo $cliente['email'] ?></td>
+                    <td>
+                        <a href="cliente-visualizar.php?id=<?php echo $cliente['pk_cliente']; ?>"
+                            class="btn btn-warning">Visualizar</a>
+                    </td>
+                </tr>  
+                <?php } ?> 
             </tbody>
         </table>
-    </div>    
-<?php include'includes/footer.php' ?>
-
-    
+    </div>  
+<?php include "includes/footer.php"; ?>
